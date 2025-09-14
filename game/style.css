@@ -1,0 +1,303 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+    color: white;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.game-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px #00ffff;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 20px #00ffff; }
+    to { text-shadow: 0 0 30px #00ffff, 0 0 40px #00ffff; }
+}
+
+.score-board {
+    display: flex;
+    justify-content: space-between;
+    max-width: 400px;
+    margin: 0 auto;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.score, .high-score {
+    background: rgba(0, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 2px solid #00ffff;
+}
+
+.game-area {
+    flex: 1;
+    position: relative;
+    width: 420px;
+    max-width: 500px;
+    height: 370px;
+    background: linear-gradient(180deg, #000428 0%, #004e92 100%);
+    border: 3px solid #00ffff;
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 0 auto 20px auto;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+}
+
+.player-rocket {
+    position: absolute;
+    font-size: 3rem;
+    z-index: 10;
+    transition: none;
+    filter: drop-shadow(0 0 10px #ff6b6b);
+    animation: playerPulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes playerPulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}
+
+.obstacle-rocket {
+    position: absolute;
+    font-size: 2.5rem;
+    z-index: 5;
+    animation: rocketFall linear;
+    filter: drop-shadow(0 0 8px currentColor);
+}
+
+.obstacle-rocket.type1 {
+    color: #ff4757;
+    animation: rocketFall 3s linear;
+}
+
+.obstacle-rocket.type2 {
+    color: #ffa502;
+    animation: rocketFall 2.5s linear;
+}
+
+.obstacle-rocket.type3 {
+    color: #2ed573;
+    animation: rocketFall 2s linear;
+}
+
+.obstacle-rocket.type4 {
+    color: #ff6b6b;
+    animation: rocketFall 1.8s linear;
+}
+
+@keyframes rocketFall {
+    from {
+        top: -50px;
+        transform: rotate(180deg);
+    }
+    to {
+        top: 100%;
+        transform: rotate(180deg);
+    }
+}
+
+.laser {
+    position: absolute;
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(to top, #00ffff, #ffffff);
+    border-radius: 2px;
+    z-index: 8;
+    box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+    animation: laserPulse 0.1s ease-in-out infinite alternate;
+}
+
+.laser-center {
+    background: linear-gradient(to top, #00ffff, #ffffff);
+    box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+}
+
+.laser-left {
+    background: linear-gradient(to top, #ff6b6b, #ffa8a8);
+    box-shadow: 0 0 10px #ff6b6b, 0 0 20px #ff6b6b;
+    transform: rotate(-15deg);
+}
+
+.laser-right {
+    background: linear-gradient(to top, #4ecdc4, #a8f0f0);
+    box-shadow: 0 0 10px #4ecdc4, 0 0 20px #4ecdc4;
+    transform: rotate(15deg);
+}
+
+@keyframes laserPulse {
+    from { 
+        box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+        transform: scaleY(1);
+    }
+    to { 
+        box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+        transform: scaleY(1.1);
+    }
+}
+
+.enemy-laser {
+    position: absolute;
+    width: 6px;
+    height: 25px;
+    background: linear-gradient(to bottom, #ff4757, #ff6b6b);
+    border-radius: 3px;
+    z-index: 7;
+    box-shadow: 0 0 15px #ff4757, 0 0 25px #ff4757;
+    animation: enemyLaserPulse 0.2s ease-in-out infinite alternate;
+}
+
+@keyframes enemyLaserPulse {
+    from { 
+        box-shadow: 0 0 15px #ff4757, 0 0 25px #ff4757;
+        transform: scaleY(1);
+    }
+    to { 
+        box-shadow: 0 0 20px #ff4757, 0 0 35px #ff4757;
+        transform: scaleY(1.05);
+    }
+}
+
+.game-controls {
+    text-align: center;
+}
+
+.instructions {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.instructions p {
+    margin-bottom: 5px;
+}
+
+.start-btn, .pause-btn, .restart-btn {
+    background: linear-gradient(45deg, #00ffff, #0080ff);
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+}
+
+.start-btn:hover, .pause-btn:hover, .restart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 255, 255, 0.4);
+}
+
+.start-btn:disabled, .pause-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.game-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    border: 3px solid #ff4757;
+    box-shadow: 0 0 30px rgba(255, 71, 87, 0.5);
+    z-index: 100;
+}
+
+.game-over h2 {
+    font-size: 2.5rem;
+    color: #ff4757;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px #ff4757;
+}
+
+.game-over p {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+}
+
+.restart-btn {
+    background: linear-gradient(45deg, #ff4757, #ff6b6b);
+    box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+}
+
+.restart-btn:hover {
+    box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+}
+
+/* Particle effects */
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #00ffff;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: particleFloat 1s ease-out forwards;
+}
+
+@keyframes particleFloat {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0) translateY(-50px);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .game-header h1 {
+        font-size: 2rem;
+    }
+    
+    .player-rocket {
+        font-size: 2.5rem;
+    }
+    
+    .obstacle-rocket {
+        font-size: 2rem;
+    }
+    
+    .score-board {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .instructions {
+        font-size: 1rem;
+    }
+}
